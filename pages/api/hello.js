@@ -1,7 +1,31 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import Cors from 'cors';
 
-export default (req, res) => {
-  // Open Chrome DevTools to step through the debugger!
-  //debugger;
-  res.status(200).json({ name: 'Hello, world!!!!!!!!!!!!!!' });
-};
+// Initializing the cors middleware
+const cors = Cors({
+  //  origin: 'http://localhost',
+  methods: ['GET', 'HEAD']
+});
+
+// Helper method to wait for a middleware to execute before continuing
+// And to throw an error when an error happens in a middleware
+function runMiddleware(req, res, fn) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, result => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+}
+
+async function handler(req, res) {
+  // Run the middleware
+  await runMiddleware(req, res, cors);
+
+  // Rest of the API logic
+  res.json({ message: 'Hello Everyone!!' });
+}
+
+export default handler;

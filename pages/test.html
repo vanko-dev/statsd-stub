@@ -1,0 +1,22 @@
+<script>
+  async function app() {
+      //   const res = await fetch(url, {
+      //     method: "post",
+      //     body: {}
+      //   }).then(it => it.json());
+
+      const res = await fetch(
+         // "https://statsd-stub--3000.local.webcontainer.io/api/hello",
+         "https://statsd-stub.vercel.app/api/hello",
+          {mode: "no-cors"}
+          
+      ).then(it => {
+         // debugger;
+          it.json();
+      });
+
+      console.info(JSON.stringify(res));
+  }
+
+  app();
+</script>
